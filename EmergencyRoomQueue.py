@@ -2,18 +2,39 @@ import time
 
 
 def main():
+
+    program = True
+
+
+    patient_list_queue = []
+
     print("Please do some shit")
-    patient1 = Patient(10,"Jacob")
-    patient1.display_patient()
-    patient2 = Patient(2,"Sarah")
-    patient2.display_patient()
+    patient_list_queue.append(Patient(10, "Jacob"))
+    patient_list_queue[0].display_patient()
+    patient_list_queue.append(Patient(2, "Sarah"))
+    patient_list_queue[1].display_patient()
+
+
+    while(program != False):
+
+        userinput = str(input())
+
+        if(userinput == "Exit"):
+            program = False
+            return 0
+
+
+
+
+
+
 
 #Function that will retrieve patient information and sort it into the linked list
-def insertPatientIntoList():
+def insertPatientIntoList(): #TODO
     pass
 
 #Function that allows patient records to be accessed and manipulated in the list
-def accessPatientRecord():
+def accessPatientRecord(): #TODO
     pass
 
 # -------------------------------------- #
@@ -22,15 +43,15 @@ def accessPatientRecord():
 # Usage is to allow a mid section update #
 # in a patient file                      #
 # -------------------------------------- #
-def queueListSort():
+def queueListSort(): #TODO
     pass
 
-#---------------------------------------#
+# ------------------------------------- #
 # Function that requests a patient file #
 # from the queue for the doctor then    #
 # saves and closes the file             #
-#---------------------------------------#
-def closePatientFile():
+# ------------------------------------- #
+def closePatientFile(): #TODO
     pass
 
 
