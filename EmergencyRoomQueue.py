@@ -8,20 +8,29 @@ def main():
 
     patient_list_queue = []
 
+    # TEMP CODE
     print("Please do some shit")
     patient_list_queue.append(Patient(10, "Jacob"))
     patient_list_queue[0].display_patient()
     patient_list_queue.append(Patient(2, "Sarah"))
     patient_list_queue[1].display_patient()
-
+    # TEMP CODE END
 
     while(program != False):
 
         userinput = str(input())
 
+
+        # WINDOW ACTIONS CONDITIONS
         if(userinput == "Exit"):
             program = False
             return 0
+        # Function Call for Sort
+        if(userinput == "Sort"):
+            print("are you sure?")
+            print("yes or no")
+            queueListSort()
+
 
 
 
@@ -40,7 +49,7 @@ def accessPatientRecord(): #TODO
 # -------------------------------------- #
 # Function that forces the values in the #
 # list to sort                           #
-# Usage is to allow a mid section update #
+# Usage: is to allow a mid section update#
 # in a patient file                      #
 # -------------------------------------- #
 def queueListSort(): #TODO
