@@ -1,12 +1,15 @@
 import time
-
+patient_list_queue = []
 
 def main():
 
     program = True
 
-    #test
-    patient_list_queue = []
+
+    # test
+    # patient_list_queue = []
+
+
 
     # TEMP CODE
     print("Please do some shit")
@@ -16,20 +19,39 @@ def main():
     patient_list_queue[1].display_patient()
     # TEMP CODE END
 
-    while(program != False):
+    # ------------------------- #
+    # Runtime Initiation for    #
+    # Program                   #
+    # ------------------------- #
+    while program:
 
         userinput = str(input())
 
-
         # WINDOW ACTIONS CONDITIONS
-        if(userinput == "Exit"):
+        if (userinput == 'Exit') or (userinput == 'exit'):
             program = False
             return 0
+        # ----------------------------------------- #
+        # Function Call for insertPatientIntoList() #
+        # Usage: To create new patient information  #
+        #        and pass it into the function to   #
+        #        insert the information into the    #
+        #        linked list for storage            #
+        # ----------------------------------------- #
+        if (userinput == 'New')or (userinput == 'new'):
+            insertPatientIntoList()
+
         # Function Call for Sort
-        if(userinput == "Sort"):
+        if userinput == 'Sort':
             print("are you sure?")
             print("yes or no")
             queueListSort()
+        # Function Call for commandlist
+        if (userinput == 'help') or (userinput == 'list'):
+            commandlist()
+
+        else:
+            userinput = None
 
 
 
@@ -38,9 +60,11 @@ def main():
 
 
 
-#Function that will retrieve patient information and sort it into the linked list
+
+# Function that will retrieve patient information and sort it into the linked list
 def insertPatientIntoList(): #TODO
-    pass
+    new_patient = Patient(critical_level=str(input("Critical Level: ")), patient_name=str(input("Patient Name: ")))
+    patient_list_queue.append(new_patient)
 
 #Function that allows patient records to be accessed and manipulated in the list
 def accessPatientRecord(): #TODO
@@ -63,6 +87,17 @@ def queueListSort(): #TODO
 def closePatientFile(): #TODO
     pass
 
+# Prints a list of available commands for the user
+def commandlist():
+    print("---------------------------------------------------------------")
+    print("Command | Description |")
+    print("--------------------------------------")
+    print("| New | Enter a new patient into the queue |")
+    print("| Sort | Sorts the Queue of Patients |")
+    print("| Treat | Closes a Patient file for Doctors |")
+    print("| Help | Show the list of Command Available |")
+    print("| Exit | Close the program, Warning!Queue Data is not Saved |")
+    print("--------------------------------------------------------------")
 
 # Patient Class Definition
 class Patient:
