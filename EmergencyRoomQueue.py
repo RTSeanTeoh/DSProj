@@ -43,15 +43,22 @@ def main():
 
         # Function Call for Sort
         if userinput == 'Sort':
-            print("are you sure?")
-            print("yes or no")
-            queueListSort()
+            print("Do you want to sort the queue?")
+            print("Yes or No")
+            userinput = str(input("Choice: "))
+            if (userinput == 'Yes') or (userinput == 'yes'):
+                sort_queue()
+            elif (userinput == 'No') or (userinput == 'no'):
+                print("Returning to Menu...")
+            else:
+                print("Invalid choice...")
+
+
         # Function Call for commandlist
         if (userinput == 'help') or (userinput == 'list'):
-            commandlist()
+            function_call_command_list()
 
-        else:
-            userinput = None
+        userinput = None
 
 
 
@@ -62,12 +69,12 @@ def main():
 
 
 # Function that will retrieve patient information and sort it into the linked list
-def insertPatientIntoList(): #TODO
+def new_patient_insert_into_list(): #TODO
     new_patient = Patient(critical_level=str(input("Critical Level: ")), patient_name=str(input("Patient Name: ")))
     patient_list_queue.append(new_patient)
 
 #Function that allows patient records to be accessed and manipulated in the list
-def accessPatientRecord(): #TODO
+def access_patient_pecord(): #TODO
     pass
 
 # -------------------------------------- #
@@ -76,7 +83,7 @@ def accessPatientRecord(): #TODO
 # Usage: is to allow a mid section update#
 # in a patient file                      #
 # -------------------------------------- #
-def queueListSort(): #TODO
+def sort_queue(): #TODO
     pass
 
 # ------------------------------------- #
@@ -84,11 +91,21 @@ def queueListSort(): #TODO
 # from the queue for the doctor then    #
 # saves and closes the file             #
 # ------------------------------------- #
-def closePatientFile(): #TODO
+def close_patient_file(): #TODO
     pass
 
+# ------------------------------------- #
+# Function that prints all values inside#
+# the linked list                       #
+# Usage: To view all the sorted data    #
+#        within the list                #
+# ------------------------------------- #
+def list_all_in_queue():
+    pass
+
+
 # Prints a list of available commands for the user
-def commandlist():
+def function_call_command_list(): # TODO
     print("---------------------------------------------------------------")
     print("Command | Description |")
     print("--------------------------------------")
@@ -112,13 +129,15 @@ class Patient:
     def __init__(self, critical_level, patient_name):
         self.critical_level = critical_level
         self.patient_name = patient_name
-        self.patient_entry_time = time.time()
+        self.patient_entry_time = time.strftime("%c")
         self.patient_number = Patient.patient_count
         Patient.patient_count += 1
 
     def display_patient(self):
-        print("Patient Number: " + str(self.patient_number), "Patient Name: " + self.patient_name,
-              "Patient Critical Level: " + str(self.critical_level), "Patient Entry Time: " + str(self.patient_entry_time))
+        print(" Patient Number\t\t\t: " + str(self.patient_number) + "\n",
+              "Patient Name\t\t\t: " + self.patient_name + "\n",
+              "Patient Critical Level\t: " + str(self.critical_level) + "\n",
+              "Patient Entry Time\t\t: " + self.patient_entry_time + "\n")
 
 
 main()
