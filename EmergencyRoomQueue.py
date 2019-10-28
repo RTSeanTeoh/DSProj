@@ -39,7 +39,7 @@ def main():
         #        linked list for storage            #
         # ----------------------------------------- #
         if (userinput == 'New')or (userinput == 'new'):
-            insertPatientIntoList()
+            new_patient_insert_into_list()
 
         # Function Call for Sort
         if userinput == 'Sort':
