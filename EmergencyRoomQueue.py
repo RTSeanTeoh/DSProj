@@ -31,33 +31,64 @@ def main():
             print("yes or no")
             queueListSort()
 
+
+
+
+
+
+
+
 #Function that will retrieve patient information and sort it into the linked list
-def insertPatientIntoList(patient_list_queue, patient_name, patient_prio): #TODO
+def insertPatientIntoList(patient_list_queue): #TODO
     pass
-    print("Patient name: ", patient_name)
-    print("\nPriority: ", patient_prio)
+    new_name = input("Patient's name: ")
+    patient_list_queue.append(new_name)
+    patient_list_queue.append(0)
+
     update = input("\nUpdate this list? <Y/N>: ")
     while(update == "y" or update == "Y"):
-        update_patient_name = input("Update patient's name: ")
-        patient_list_queue[patient_name] = update_patient_name
-        update_patient_prior = int(input("Update patient's priority: "))
-        patient_list_queue[patient_prio] = update_patient_prior
+        new_name = input("Patient's name: ")
+        patient_list_queue.append(new_name)
+        patient_list_queue.append(0)
         update = input("\nUpdate this list? <Y/N>")
 
     print("Update Complete...")
     return patient_list_queue
+#---------------------------------------------#
+#The list should be show as                   #
+#[(exiting data),new_name, 0}                 #
+#The 0 is for later to be able to change later#
+#Which do not need to use temp to keep all of #
+#data                                         #
+#---------------------------------------------#
+
+
+
 
 #Function that allows patient records to be accessed and manipulated in the list
 def accessPatientRecord(patient_list_queue): #TODO
     pass
-    patient = input("Which patient's record you wish to access: ")
-    for patient_name in patient_list_queue:
-        if patient_name == patient:
-            patient_prio = patient_name+2
-            print(patient_list_queue[patient:patient_prio])
-    return patient_name, patient_prio
-    insertPatientIntoList( patient_list_queue, patient_name, patient_prio)
-
+    update = "Y"
+    while(update == "Y"):
+        decide_name = input("Which patient's record you wish to access: ")
+        for patient_name in patient_list_queue:
+            if patient_name == decide_name:
+                temp1 = patient_list_queue[patient_name]
+                temp2 = patient_list_queue[patient_name+1]
+                patient_list_queue[patient_name] = input("Update the patient's name: ")
+                patient_list_queue[patient_name+1] = int(input("Update the patient's priority: "))
+                print(temp1, "\nchanged to ", patient_list_queue[patient_name])
+                print(temp2, "\nchanged to ", patient_list_queue[patient_name+1])
+                final = input("\nConfirm change? <Y/N> ")
+                if final == "N":
+                    patient_list_queue[patient_name] = temp1
+                    patient_list_queue[patient_name+1] = temp2
+        update = input("Update the list again? <Y/N> ")
+    print("Update complete...")
+#----------------------------------#
+#The purpose for using 2 temp value#
+#is to allow undo function         #
+#----------------------------------#
 
 
 # -------------------------------------- #
@@ -68,14 +99,7 @@ def accessPatientRecord(patient_list_queue): #TODO
 # -------------------------------------- #
 def queueListSort(patient_list_queue): #TODO
     pass
-    accessPatientRecord(patient_list_queue)
-    insertPatientIntoList(patient_list_queue, patient_name, patient_prio)
-    update_list = input("Do you want to update list again? <Y/N> ")
-    while update_list == "y" or update_list == "Y":
-        accessPatientRecord(patient_list_queue)
-        insertPatientIntoList(patient_list_queue, patient_name, patient_prio)
-        update_list  = input("Do you want to update list again? <Y/N> ")
-    print("List update successful...")
+
 
 # ------------------------------------- #
 # Function that requests a patient file #
