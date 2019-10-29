@@ -53,8 +53,13 @@ def main():
             else:
                 print("Invalid choice...")
 
+        # Function Call for List All in Queue
+        if (userinput == 'listall') or (userinput == 'listall'):
+            for i in range(len(patient_list_queue)):
+                patient_list_queue[i].display_patient()
 
-        # Function Call for commandlist
+
+        # Function Call for Function Commands List
         if (userinput == 'help') or (userinput == 'list'):
             function_call_command_list()
 
@@ -111,6 +116,7 @@ def function_call_command_list(): # TODO
     print("--------------------------------------")
     print("| New | Enter a new patient into the queue |")
     print("| Sort | Sorts the Queue of Patients |")
+    print("| Listall | Print a list of all patients in queue |")
     print("| Treat | Closes a Patient file for Doctors |")
     print("| Help | Show the list of Command Available |")
     print("| Exit | Close the program, Warning!Queue Data is not Saved |")
