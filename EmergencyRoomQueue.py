@@ -7,9 +7,6 @@ patient_list_queue = []
 def main():
     program = True
 
-    # test
-    # patient_list_queue = []
-
     # TEMP CODE
     print("Please do some shit")
     patient_list_queue.append(Patient(10, "Jacob"))
@@ -30,6 +27,7 @@ def main():
         if (userinput == 'Exit') or (userinput == 'exit'):
             program = False
             return 0
+
         # ----------------------------------------- #
         # Function Call for insertPatientIntoList() #
         # Usage: To create new patient information  #
@@ -54,8 +52,7 @@ def main():
 
         # Function Call for List All in Queue
         if (userinput == 'listall') or (userinput == 'listall'):
-            for i in range(len(patient_list_queue)):
-                patient_list_queue[i].display_patient()
+            list_all_in_queue()
 
         # Function Call for Function Commands List
         if (userinput == 'help') or (userinput == 'list'):
@@ -66,12 +63,16 @@ def main():
 
 # Function that will retrieve patient information and sort it into the linked list
 def new_patient_insert_into_list():  # TODO
+    # Call upon Patient Constructor to input new patient instance into list
     new_patient = Patient(critical_level=int(input("Critical Level: ")), patient_name=str(input("Patient Name: ")))
     patient_list_queue.append(new_patient)
-
+    # TODO
+    # Currently takes new patient and auto sorts whole list
+    # Better alternative is to use slice and insert method through search and insertion
+    sort_queue()
 
 # Function that allows patient records to be accessed and manipulated in the list
-def access_patient_pecord():  # TODO
+def access_patient_record():  # TODO
     pass
 
 
@@ -81,28 +82,24 @@ def access_patient_pecord():  # TODO
 # Usage: is to allow a mid section update#
 # in a patient file                      #
 # -------------------------------------- #
-def sort_queue():  # TODO
+def sort_queue():
 
     # -------------------------------------------- #
     # Complex Sort, sorting based on               #
-    # Critical Level & Entry Time                  #
+    # Critical Level & Entry Time, python in built #
+    # sort uses Timsort Method                     #
     # -------------------------------------------- #
     # Step 1:                                      #
-    # Call upon the inbuilt python sorted function #
+    # Call upon the inbuilt python sort function   #
     # to sort the patients based on entry time     #
-    # and store into entry_sort variable           #
     # -------------------------------------------- #
-    # entry_sort = sorted(patient_list_queue, key=operator.attrgetter('patient_entry_time'))
-    patient_list_queue.sort(key=operator.attrgetter('patient_entry_time'))
-
+    patient_list_queue.sort(key=operator.attrgetter('patient_entry_time'), reverse=True)
 
     # -------------------------------------------- #
     # Step 2:                                      #
-    # Call upon the inbuilt python sorted function #
+    # Call upon the inbuilt python sort function   #
     # to sort the patients based on critical level #
-    # and store into critical_sort variable        #
     # -------------------------------------------- #
-    # patient_list_queue = sorted(entry_sort, key=operator.attrgetter('critical_level'))
     patient_list_queue.sort(key=operator.attrgetter('critical_level'))
 
 # ------------------------------------- #
@@ -121,7 +118,8 @@ def close_patient_file():  # TODO
 #        within the list                #
 # ------------------------------------- #
 def list_all_in_queue():
-    pass
+    for i in range(len(patient_list_queue)):
+        patient_list_queue[i].display_patient()
 
 
 # Prints a list of available commands for the user
