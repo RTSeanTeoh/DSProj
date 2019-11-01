@@ -74,7 +74,30 @@ def new_patient_insert_into_list():  # TODO
 # Function that allows patient records to be accessed and manipulated in the list
 def access_patient_record():  # TODO
     pass
-
+    update = "Y"
+    while (update == "Y"):
+        decide_name = input("Which patient's record you wish to access: ")
+        for patient_name in patient_list_queue:
+            if patient_name == decide_name:
+                temp1 = patient_list_queue[patient_name]
+                temp2 = patient_list_queue[patient_name - 1]
+                patient_list_queue[patient_name] = input("Update the patient's name: ")
+                patient_list_queue[patient_name - 1] = int(input("Update the patient's priority: "))
+                print(temp1, "\nchanged to ", patient_list_queue[patient_name])
+                print(temp2, "\nchanged to ", patient_list_queue[patient_name - 1])
+                final = input("\nConfirm change? <Y/N> ")
+                if final == "N":
+                    patient_list_queue[patient_name] = temp1
+                    patient_list_queue[patient_name - 1] = temp2
+        update = input("Update the list again? <Y/N> ")
+    print("Update complete...")
+#---------------------------------------------------------------#
+#Since the list will display as [critical level, Patient's Name]#
+#The position will be changed by extracting 1 from the position #
+#of the Patient's name, if not just adding 1 from the position  #
+#of the Patient's name.                                         #
+#The purpose for using 2 temp value is to allow undo function   #
+#---------------------------------------------------------------#
 
 # -------------------------------------- #
 # Function that forces the values in the #
@@ -107,8 +130,31 @@ def sort_queue():
 # from the queue for the doctor then    #
 # saves and closes the file             #
 # ------------------------------------- #
-def close_patient_file():  # TODO
+def treat_patient():  # TODO
     pass
+    patient_name = input("Patient's name: ")
+    patient_txt = open("Patient.txt", "w")
+    for x in patient_list_queue:
+        if x == patient_name:
+            patient_txt.write("Patient's Name: " + x + "\n")
+            patient_txt.write("Critical Level: " + x - 1 + "\n")
+            treat_req = input("Request treatment for the patient now? <Y/N> ")
+            if treat_req == "y" or treat_req == "Y":
+                patient_txt.write("Request For Treating" + "\n")
+            if treat_req == "n" or treat_req == "N":
+                patient_txt.write("Not Request For Treatment" + "\n")
+    patient_txt.close()
+
+#-------------------------------------------#
+#Open a new file with list of patient's name#
+#Extract the value of the array list into   #
+#the .txt file, showing patient's name and  #
+#patient's critical level, the doctor later #
+#can request for treatment for the patient  #
+#based on the critical level that just      #
+#released, after extract the .txt file,     #
+#the .txt file should be close              #
+#-------------------------------------------#
 
 
 # ------------------------------------- #
