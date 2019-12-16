@@ -50,6 +50,10 @@ def main():
             else:
                 print("Invalid choice...")
 
+        # Function Call for Treat
+        if (userinput == 'Treat') or (userinput == 'treat'):
+            treat_patient()
+
         # Function Call for List All in Queue
         if (userinput == 'listall') or (userinput == 'listall'):
             list_all_in_queue()
@@ -62,7 +66,7 @@ def main():
 
 
 # Function that will retrieve patient information and sort it into the linked list
-def new_patient_insert_into_list():  # TODO
+def new_patient_insert_into_list():  # WESLY CODE
     # Call upon Patient Constructor to input new patient instance into list
     new_patient = Patient(critical_level=int(input("Critical Level: ")), patient_name=str(input("Patient Name: ")))
     patient_list_queue.append(new_patient)
@@ -72,10 +76,10 @@ def new_patient_insert_into_list():  # TODO
     sort_queue()
 
 # Function that allows patient records to be accessed and manipulated in the list
-def access_patient_record():  # TODO
-    pass
+def access_patient_record():  # WESLY CODE
+
     update = "Y"
-    while (update == "Y"):
+    while update == "Y":
         decide_name = input("Which patient's record you wish to access: ")
         for patient_name in patient_list_queue:
             if patient_name == decide_name:
@@ -91,13 +95,16 @@ def access_patient_record():  # TODO
                     patient_list_queue[patient_name - 1] = temp2
         update = input("Update the list again? <Y/N> ")
     print("Update complete...")
-#---------------------------------------------------------------#
-#Since the list will display as [critical level, Patient's Name]#
-#The position will be changed by extracting 1 from the position #
-#of the Patient's name, if not just adding 1 from the position  #
-#of the Patient's name.                                         #
-#The purpose for using 2 temp value is to allow undo function   #
-#---------------------------------------------------------------#
+
+
+# --------------------------------------------------------------- #
+# Since the list will display as [critical level, Patient's Name] #
+# The position will be changed by extracting 1 from the position  #
+# of the Patient's name, if not just adding 1 from the position   #
+# of the Patient's name.                                          #
+# The purpose for using 2 temp value is to allow undo function    #
+# --------------------------------------------------------------- #
+
 
 # -------------------------------------- #
 # Function that forces the values in the #
@@ -105,7 +112,7 @@ def access_patient_record():  # TODO
 # Usage: is to allow a mid section update#
 # in a patient file                      #
 # -------------------------------------- #
-def sort_queue():
+def sort_queue():  # SEAN CODE
 
     # -------------------------------------------- #
     # Complex Sort, sorting based on               #
@@ -130,31 +137,24 @@ def sort_queue():
 # from the queue for the doctor then    #
 # saves and closes the file             #
 # ------------------------------------- #
-def treat_patient():  # TODO
-    pass
-    patient_name = input("Patient's name: ")
-    patient_txt = open("Patient.txt", "w")
-    for x in patient_list_queue:
-        if x == patient_name:
-            patient_txt.write("Patient's Name: " + x + "\n")
-            patient_txt.write("Critical Level: " + x - 1 + "\n")
-            treat_req = input("Request treatment for the patient now? <Y/N> ")
-            if treat_req == "y" or treat_req == "Y":
-                patient_txt.write("Request For Treating" + "\n")
-            if treat_req == "n" or treat_req == "N":
-                patient_txt.write("Not Request For Treatment" + "\n")
-    patient_txt.close()
+def treat_patient():  # WESLY CODE, SEAN MODIFIED
 
-#-------------------------------------------#
-#Open a new file with list of patient's name#
-#Extract the value of the array list into   #
-#the .txt file, showing patient's name and  #
-#patient's critical level, the doctor later #
-#can request for treatment for the patient  #
-#based on the critical level that just      #
-#released, after extract the .txt file,     #
-#the .txt file should be close              #
-#-------------------------------------------#
+    x = patient_list_queue.pop()
+    x.display_patient()
+    f = open("Patient.txt", "a")
+    f.write(x.getPatientRecord())
+    f.close()
+
+# ------------------------------------------- #
+# Open a new file with list of patient's name #
+# Extract the value of the array list into    #
+# the .txt file, showing patient's name and   #
+# patient's critical level, the doctor later  #
+# can request for treatment for the patient   #
+# based on the critical level that just       #
+# released, after extract the .txt file,      #
+# the .txt file should be close               #
+# ------------------------------------------- #
 
 # ------------------------------------- #
 # Function that prints all values inside#
@@ -162,13 +162,13 @@ def treat_patient():  # TODO
 # Usage: To view all the sorted data    #
 #        within the list                #
 # ------------------------------------- #
-def list_all_in_queue():
+def list_all_in_queue():  # SEAN CODE
     for i in range(len(patient_list_queue)):
         patient_list_queue[i].display_patient()
 
 
 # Prints a list of available commands for the user
-def function_call_command_list():  # TODO
+def function_call_command_list():  # SEAN CODE
     print("---------------------------------------------------------------")
     print("Command | Description |")
     print("--------------------------------------")
@@ -182,7 +182,7 @@ def function_call_command_list():  # TODO
 
 
 # Patient Class Definition
-class Patient:
+class Patient:  # SEAN CODE
     patient_count = 1
 
     # -------------------------------------------------------------------- #
@@ -204,5 +204,9 @@ class Patient:
               "Patient Critical Level\t: " + str(self.critical_level) + "\n",
               "Patient Entry Time\t\t: " + self.patient_entry_time_display + "\n")
 
+    def getPatientRecord(self):
+        record_string = str(self.patient_number) + "\n" + self.patient_name + "\n"\
+                       + str(self.critical_level) + "\n" + self.patient_entry_time_display + "\n"
+        return record_string
 
 main()
