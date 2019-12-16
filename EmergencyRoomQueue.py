@@ -204,6 +204,11 @@ class Patient:  # SEAN CODE
               "Patient Critical Level\t: " + str(self.critical_level) + "\n",
               "Patient Entry Time\t\t: " + self.patient_entry_time_display + "\n")
 
+    # --------------------------------- #
+    # This method is used to produce a  #
+    # String to be used in file .txt    #
+    # storage                           #
+    # --------------------------------- #
     def getPatientRecord(self):
         record_string = str(self.patient_number) + "\n" + self.patient_name + "\n"\
                        + str(self.critical_level) + "\n" + self.patient_entry_time_display + "\n"
