@@ -2,17 +2,18 @@ import time
 import operator
 
 patient_list_queue = []
-
+checker = []
 
 def main():
     program = True
+    patient_count_loader()
+    opening_menu()
 
     # TEMP CODE
-    print("Please do some shit")
-    patient_list_queue.append(Patient(10, "Jacob"))
-    patient_list_queue[0].display_patient()
-    patient_list_queue.append(Patient(2, "Sarah"))
-    patient_list_queue[1].display_patient()
+    # patient_list_queue.append(Patient(10, "Jacob"))
+    # patient_list_queue[0].display_patient()
+    # patient_list_queue.append(Patient(2, "Sarah"))
+    # patient_list_queue[1].display_patient()
     # TEMP CODE END
 
     # ------------------------- #
@@ -21,6 +22,7 @@ def main():
     # ------------------------- #
     while program:
 
+        print("User Input: ", end=' ')
         userinput = str(input())
 
         # WINDOW ACTIONS CONDITIONS
@@ -50,16 +52,19 @@ def main():
             else:
                 print("Invalid choice...")
 
+        if (userinput == 'Retrieve') or (userinput == 'retrieve'):
+            retrieve_patient_record()
+
         # Function Call for Treat
         if (userinput == 'Treat') or (userinput == 'treat'):
             treat_patient()
 
         # Function Call for List All in Queue
-        if (userinput == 'listall') or (userinput == 'listall'):
+        if (userinput == 'Listall') or (userinput == 'listall'):
             list_all_in_queue()
 
         # Function Call for Function Commands List
-        if (userinput == 'help') or (userinput == 'list'):
+        if (userinput == 'Help') or (userinput == 'help'):
             function_call_command_list()
 
         userinput = None
@@ -70,32 +75,44 @@ def new_patient_insert_into_list():  # WESLY CODE
     # Call upon Patient Constructor to input new patient instance into list
     new_patient = Patient(critical_level=int(input("Critical Level: ")), patient_name=str(input("Patient Name: ")))
     patient_list_queue.append(new_patient)
+
     # TODO
     # Currently takes new patient and auto sorts whole list
     # Better alternative is to use slice and insert method through search and insertion
     sort_queue()
 
 # Function that allows patient records to be accessed and manipulated in the list
-def access_patient_record():  # WESLY CODE
+def retrieve_patient_record():  # WESLY CODE # TODO
+    print("Please Select The Patient ID Number for the Patient Record you wish to access")
+    user_input = int(input("Input Patient Number: "))
 
-    update = "Y"
-    while update == "Y":
-        decide_name = input("Which patient's record you wish to access: ")
-        for patient_name in patient_list_queue:
-            if patient_name == decide_name:
-                temp1 = patient_list_queue[patient_name]
-                temp2 = patient_list_queue[patient_name - 1]
-                patient_list_queue[patient_name] = input("Update the patient's name: ")
-                patient_list_queue[patient_name - 1] = int(input("Update the patient's priority: "))
-                print(temp1, "\nchanged to ", patient_list_queue[patient_name])
-                print(temp2, "\nchanged to ", patient_list_queue[patient_name - 1])
-                final = input("\nConfirm change? <Y/N> ")
-                if final == "N":
-                    patient_list_queue[patient_name] = temp1
-                    patient_list_queue[patient_name - 1] = temp2
-        update = input("Update the list again? <Y/N> ")
-    print("Update complete...")
+    count = 0
+    counter = 0
+    record_list = []
 
+    f = open("Patient.txt", "r")
+    record = Patient(0, "record")
+    for x in range(1, file_len("Patient.txt")):
+        patient_number_check = f.readline()
+        count += 1
+        if count % 4 == 1:
+            record_list.append(int(patient_number_check.rstrip("\n")))
+    print(record_list)
+
+    for i in range(0, len(record_list)):
+        print(i)
+        print(record_list[i])
+
+        f.seek(0)
+        if int(user_input) is record_list[i]:
+            patient_number = f.readline().rstrip("\n")
+            critical_level = f.readline().rstrip("\n")
+            patient_name = f.readline().rstrip("\n")
+            patient_entry_time_display = f.readline().rstrip("\n")
+            record.setPatientRecord(patient_number, critical_level, patient_name, patient_entry_time_display)
+            record.display_patient()
+        else:
+            print("Record Not Found")
 
 # --------------------------------------------------------------- #
 # Since the list will display as [critical level, Patient's Name] #
@@ -169,25 +186,56 @@ def list_all_in_queue():  # SEAN CODE
 
 # Prints a list of available commands for the user
 def function_call_command_list():  # SEAN CODE
-    print("---------------------------------------------------------------")
-    print("Command | Description |")
-    print("--------------------------------------")
-    print("| New | Enter a new patient into the queue |")
-    print("| Sort | Sorts the Queue of Patients |")
-    print("| Listall | Print a list of all patients in queue |")
-    print("| Treat | Closes a Patient file for Doctors |")
-    print("| Help | Show the list of Command Available |")
-    print("| Exit | Close the program, Warning!Queue Data is not Saved |")
-    print("--------------------------------------------------------------")
+    print("---------------------------------------------------------------------")
+    print("Command \t| Description \t\t\t\t\t\t\t\t\t\t\t|")
+    print("---------------------------------------------------------------------")
+    print("| New \t\t| Enter a new patient into the queue \t\t\t\t\t|")
+    print("| Sort \t\t| Sorts the Queue of Patients \t\t\t\t\t\t\t|")
+    print("| Listall \t| Print a list of all patients in queue \t\t\t\t|")
+    print("| Treat \t| Closes a Patient file for Doctors \t\t\t\t\t|")
+    print("| Retrieve \t| Retrieve a Patient file \t\t\t\t\t\t\t\t|")
+    print("| Help \t\t| Show the list of Command Available \t\t\t\t\t|")
+    print("| Exit \t\t| Close the program, Warning!Queue Data is not Saved  \t|")
+    print("---------------------------------------------------------------------")
+
+def patient_count_loader():
+
+    f = open("Patient.txt", "r")
+    f.seek(0)
+    first_char = f.read(1)
+    if not first_char:
+        file_length = file_len("Patient.txt")
+        file_length /= 4
+    else:
+        file_length = 0
+
+    admin = Patient(0, "admin")
+    admin.setPatientCount(file_length)
+
+
+# File length checking Function
+def file_len(fname):
+    i = 0
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
+
+def opening_menu():
+    print("""===============================================================================================
+| WELCOME TO SW Hospital                                                                      |
+| Section: Emergency Room                                                                     |
+===============================================================================================""")
+    function_call_command_list()
 
 
 # Patient Class Definition
 class Patient:  # SEAN CODE
-    patient_count = 1
+    patient_count = 0
 
     # -------------------------------------------------------------------- #
     # Constructor Function                                                 #
-    # Usage: Retrieve the critical level and paitent name from main        #
+    # Usage: Retrieve the critical level and patient name from main        #
     #        Assigns a patient number and entry time upon constructor call #
     # -------------------------------------------------------------------- #
     def __init__(self, critical_level, patient_name):
@@ -203,6 +251,16 @@ class Patient:  # SEAN CODE
               "Patient Name\t\t\t: " + self.patient_name + "\n",
               "Patient Critical Level\t: " + str(self.critical_level) + "\n",
               "Patient Entry Time\t\t: " + self.patient_entry_time_display + "\n")
+
+    def setPatientRecord(self, patient_number, critical_level, patient_name, patient_entry_time_display):
+        pass
+        self.patient_number = patient_number
+        self.critical_level = critical_level
+        self.patient_name = patient_name
+        self.patient_entry_time_display = patient_entry_time_display
+
+    def setPatientCount(self, patient_count):
+        self.patient_count = patient_count
 
     # --------------------------------- #
     # This method is used to produce a  #
