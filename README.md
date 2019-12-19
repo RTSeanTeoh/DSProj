@@ -8,3 +8,4 @@ Required: Patient.txt File in same folder as EmergencyRoomQueue
 People Involved with this Project:
 
 https://github.com/RTSeanTeoh
+https://github.com/chiamwesly
