@@ -9,13 +9,6 @@ def main():
     patient_count_loader()
     opening_menu()
 
-    # TEMP CODE
-    # patient_list_queue.append(Patient(10, "Jacob"))
-    # patient_list_queue[0].display_patient()
-    # patient_list_queue.append(Patient(2, "Sarah"))
-    # patient_list_queue[1].display_patient()
-    # TEMP CODE END
-
     # ------------------------- #
     # Runtime Initiation for    #
     # Program                   #
@@ -81,8 +74,14 @@ def new_patient_insert_into_list():  # WESLY CODE
     # Better alternative is to use slice and insert method through search and insertion
     sort_queue()
 
-# Function that allows patient records to be accessed and manipulated in the list
-def retrieve_patient_record():  # WESLY CODE # TODO
+# ----------------------------------------- #
+# Function: To retrieve a Patient File from #
+#           the Patient.txt folder          #
+# Usage: Enter a patient number, then       #
+#        searches the Patient.txt folder    #
+#        to retrieve the Patient Record     #
+def retrieve_patient_record():  # WESLY CODE
+    # Take User Input for Patient Number
     print("Please Select The Patient ID Number for the Patient Record you wish to access")
     user_input = int(input("Input Patient Number: "))
 
@@ -90,29 +89,41 @@ def retrieve_patient_record():  # WESLY CODE # TODO
     counter = 0
     record_list = []
 
+    # Load all Patient Numbers into a list
+    # Cuts Patient Name, Critical Level and Patient Entry Time Values
     f = open("Patient.txt", "r")
-    record = Patient(0, "record")
     for x in range(1, file_len("Patient.txt")):
         patient_number_check = f.readline()
         count += 1
         if count % 4 == 1:
             record_list.append(int(patient_number_check.rstrip("\n")))
-    print(record_list)
 
-    for i in range(0, len(record_list)):
-        print(i)
-        print(record_list[i])
+    f.close()
+    f = open("Patient.txt", "r")
+    counter = 0
 
-        f.seek(0)
-        if int(user_input) is record_list[i]:
-            patient_number = f.readline().rstrip("\n")
-            critical_level = f.readline().rstrip("\n")
-            patient_name = f.readline().rstrip("\n")
-            patient_entry_time_display = f.readline().rstrip("\n")
-            record.setPatientRecord(patient_number, critical_level, patient_name, patient_entry_time_display)
-            record.display_patient()
-        else:
-            print("Record Not Found")
+    # Compares User Input to Patient Number List
+    for x in range(0, len(record_list)):
+        if int(user_input) == record_list[x]:
+            record = counter
+            break
+        counter += 1
+
+    # Readlines to the chosen user input in Patient.txt
+    for x in range(0, int(record)*4):
+        f.readline()
+
+    patient_number = f.readline().rstrip("\n")
+    patient_name = f.readline().rstrip("\n")
+    critical_level = f.readline().rstrip("\n")
+    patient_entry_time_display = f.readline().rstrip("\n")
+    f.close()
+
+    # Prints Choice Record
+    print(" Patient Number\t\t\t: " + str(patient_number) + "\n",
+          "Patient Name\t\t\t: " + patient_name + "\n",
+          "Patient Critical Level\t: " + str(critical_level) + "\n",
+          "Patient Entry Time\t\t: " + patient_entry_time_display)
 
 # --------------------------------------------------------------- #
 # Since the list will display as [critical level, Patient's Name] #
@@ -203,15 +214,14 @@ def patient_count_loader():
     f = open("Patient.txt", "r")
     f.seek(0)
     first_char = f.read(1)
-    if not first_char:
+    if first_char:
         file_length = file_len("Patient.txt")
         file_length /= 4
+        Patient.patient_count = int(file_length)
     else:
-        file_length = 0
-
-    admin = Patient(0, "admin")
-    admin.setPatientCount(file_length)
-
+        file_length = 1
+        Patient.patient_count = int(file_length)
+    f.close()
 
 # File length checking Function
 def file_len(fname):
@@ -239,12 +249,12 @@ class Patient:  # SEAN CODE
     #        Assigns a patient number and entry time upon constructor call #
     # -------------------------------------------------------------------- #
     def __init__(self, critical_level, patient_name):
+        Patient.patient_count += 1
         self.critical_level = critical_level
         self.patient_name = patient_name
         self.patient_entry_time = time.time()
         self.patient_entry_time_display = time.strftime("%c")
         self.patient_number = Patient.patient_count
-        Patient.patient_count += 1
 
     def display_patient(self):
         print(" Patient Number\t\t\t: " + str(self.patient_number) + "\n",
